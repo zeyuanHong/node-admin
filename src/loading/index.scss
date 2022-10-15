@@ -1,0 +1,29 @@
+.loadingMask{
+  display: none;
+  position: fixed;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.2); // 由于背景颜色会叠加，多个加载只需要显示一个。
+  z-index: 99;
+  &>span{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 30px;
+    animation: loadingAnimate 3s linear infinite;
+  }
+}
+#loading .loadingMask:first-child{
+  display: block;
+}
+@keyframes loadingAnimate{
+  from{
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+}

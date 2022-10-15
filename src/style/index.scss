@@ -1,0 +1,56 @@
+// 覆盖antd组件样式
+.login-form{
+  .ant-input{
+    border-color: transparent;
+    border-bottom-color: #d9d9d9;
+  }
+  .ant-input:focus{
+    box-shadow: none;
+  }
+  .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:focus,.ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input{
+    border-color: transparent;
+    border-bottom-color: #ff7875;
+    box-shadow: none;
+  }
+  button{
+    margin-top: 56px;
+    width: 100%;
+    height: 56px;
+    background-color: transparent;
+    border: 2px solid #84addb;
+    color: #84addb;
+    border-radius: 28px;
+  }
+}
+//layout
+#components-layout-demo-custom-trigger .trigger {
+  padding: 0 24px;
+  font-size: 18px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+#components-layout-demo-custom-trigger .trigger:hover {
+  color: #1890ff;
+}
+
+#components-layout-demo-custom-trigger .logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.site-layout .site-layout-background {
+  // display: flex;
+  // justify-content: space-between;
+  background: #fff;
+}
+.layout-sider{
+  .ant-layout-sider{
+    background-color: #1b1b1b;
+  }
+}
+.trigger{
+  font-size: 28px;
+}
