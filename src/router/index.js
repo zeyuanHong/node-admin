@@ -19,7 +19,7 @@ export default function App() {
           <Route path="adminuser" element={<Adminuser />}></Route>
           <Route path="users" element={<Users />}></Route>
           <Route path="product" element={<Product />}></Route>
-          <Route path="Order" element={<Order />}></Route>
+          <Route path="order" element={<Order />}></Route>
         </Route>
         <Route path="*" element={<Notfound />}></Route>
       </Routes>

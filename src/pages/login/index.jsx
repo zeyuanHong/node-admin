@@ -15,9 +15,6 @@ function Login({dispatch}) {
     // 把输入的用户名和密码传给login接口
     login(values,(res)=>{
       // console.log(res)
-      if(!res.token){ //没有token，登录失败
-        return message.error(res.message)
-      }
       
       // 把token存储到sessionStorage中
       sessionStorage.setItem('token',res.token)
@@ -25,7 +22,7 @@ function Login({dispatch}) {
       // 修改userReducers的state
       dispatch({
         type: "SET_USER",
-        payload: res.data[0].datas[0],
+        payload: res,
       });
       
       // 跳转到首页
@@ -46,15 +43,15 @@ function Login({dispatch}) {
               autoComplete="off"
             >
               <Form.Item
-                name="username"
+                name="email"
                 rules={[
                   {
                     required: true,
-                    message: "请输入用户名!",
+                    message: "请输入邮箱!",
                   },
                 ]}
               >
-                <Input placeholder="用户名" />
+                <Input placeholder="邮箱" />
               </Form.Item>
 
               <Form.Item

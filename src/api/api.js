@@ -1,6 +1,6 @@
 const url = "";
 const api = {
-  login: `${url}dapi/vapi/adminLogin`,
+  login: `${url}api/login`,
   getOrdersEchartData: `${url}dapi/vapi/getOrdersEchartData`,
   getAdminUserList: `${url}dapi/vapi/getAdminUserList`,
   addCreateAdminUser: `${url}dapi/vapi/addCreateAdminUser`,
@@ -18,5 +18,5 @@ const api = {
   getOrdersList: `${url}dapi/vapi/getOrdersList`,
   updateOrders: `${url}dapi/vapi/updateOrders`,
 };
-export const staticUrl = "http://localhost:3000";
+export const staticUrl = "http://localhost:3080";
 export default api;
