@@ -66,7 +66,7 @@ const Layouts = ({user,dispatch}) => {
             {
               key: "2",
               icon: <UserOutlined />,
-              label: <Link to="/adminuser">管理员账号</Link>,
+              label: <Link to="/adminuser">用户管理</Link>,
             },
             {
               key: "3",

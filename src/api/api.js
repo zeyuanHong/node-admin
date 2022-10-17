@@ -1,9 +1,9 @@
 const url = "";
 const api = {
   login: `${url}api/login`,
+  addCreateAdminUser: `${url}api/saveUser`,
   getOrdersEchartData: `${url}dapi/vapi/getOrdersEchartData`,
   getAdminUserList: `${url}dapi/vapi/getAdminUserList`,
-  addCreateAdminUser: `${url}dapi/vapi/addCreateAdminUser`,
   updateAdminUser: `${url}dapi/vapi/updateAdminUser`,
   delAdminUser: `${url}dapi/vapi/delAdminUser`,
   usersList: `${url}dapi/vapi/usersList`,

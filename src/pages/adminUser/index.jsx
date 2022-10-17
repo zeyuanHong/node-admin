@@ -204,9 +204,9 @@ function Adminuser() {
           form={form}
         >
           <Form.Item
-            label="用户名"
-            name="username"
-            rules={[{ required: true, message: "请输入用户名!" }]}
+            label="邮箱"
+            name="email"
+            rules={[{ required: true, message: "请输入邮箱!" }]}
           >
             <Input disabled={state.id} />
           </Form.Item>
@@ -214,7 +214,7 @@ function Adminuser() {
           <Form.Item
             label="密码"
             name="password"
-            rules={[{ required: true, message: "管理员密码!" }]}
+            rules={[{ required: true, message: "用户!" }]}
           >
             <Input.Password />
           </Form.Item>
@@ -230,45 +230,19 @@ function Adminuser() {
           )}
 
           <Form.Item
-            label="角色"
-            name="role"
-            rules={[{ required: true, message: "请选择角色!" }]}
+            label="昵称"
+            name="nick"
+            rules={[{ required: true, message: "请输入昵称!" }]}
           >
-            <Select value={state.role} onChange={handleChangeRole}>
-              {Object.keys(ROLE_MAP).map((key) => (
-                <Select.Option key={key} value={key}>
-                  {ROLE_MAP[key]}
-                </Select.Option>
-              ))}
-            </Select>
+            <Input disabled={state.id} />
           </Form.Item>
 
           <Form.Item
-            label="权限配置"
-            rules={[{ required: true, message: "请选择角色!" }]}
+            label="个人简介"
+            name="introduction"
+            rules={[{ required: true, message: "请输入简介!" }]}
           >
-            <List
-              grid={{
-                column: 1,
-              }}
-              dataSource={Object.keys(state.authority)}
-              renderItem={(key) => (
-                <List.Item>
-                  <Card title={state.authority[key].title}>
-                    {Object.keys(state.authority[key])
-                      .filter((item) => item !== "title")
-                      .map((item) => (
-                        <Checkbox
-                          checked={state.authority[key][item]}
-                          onChange={() => onChangeAut()}
-                        >
-                          {item}
-                        </Checkbox>
-                      ))}
-                  </Card>
-                </List.Item>
-              )}
-            />
+            <Input disabled={state.id} />
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
