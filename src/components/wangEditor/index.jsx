@@ -26,7 +26,7 @@ function MyEditor({ setEditorHtml,htmlCon }) {
         MENU_CONF: {
             uploadImage: {
                 server: api.adddetailimg, // 图片上传地址，后端要返回固定的格式editor才能识别。
-                Headers: {
+                headers: {
                     // 配置请求头
                     Authorization: sessionStorage.getItem("token"),
                 },

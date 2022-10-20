@@ -14,24 +14,17 @@ import {
 } from "antd";
 import { getAdminUserList } from "../../api/service";
 import { formatDate } from "../../util/tool";
-import config from "../../config";
 import {
   addCreateAdminUser,
   updateAdminUser,
   delAdminUser,
 } from "../../api/service";
 
-const ROLE_MAP = {
-  normal: "普通管理员",
-  admin: "超级管理员",
-};
 
 const initState = {
   page: 1,
   data: [],
   isModalOpen: false,
-  role: "normal",
-  authority: config.normal,
   id: "", // 如果id有值则是更新数据，没有值则是添加数据
 };
 
@@ -49,7 +42,7 @@ function Adminuser() {
   const handleDel = (id) => {
     delAdminUser({ id }, (res) => {
       init();
-      message.info("添加成功");
+      message.info("删除成功");
     });
   };
   const columns = [
@@ -58,28 +51,30 @@ function Adminuser() {
       dataIndex: "id", // 渲染数据的键，会把对应的value渲染到该表头下面
     },
     {
-      title: "用户名",
-      dataIndex: "username",
+      title: "邮箱",
+      dataIndex: "email",
     },
     {
       title: "密码",
       dataIndex: "password",
     },
     {
-      title: "角色",
-      dataIndex: "role",
-      render(value) {
-        return ROLE_MAP[value];
-      },
+      title: "昵称",
+      dataIndex: "nick",
     },
     {
+      title: "个人简介",
+      dataIndex: "introduction",
+    },
+
+   /*  {
       title: "创建时间",
       dataIndex: "create_time",
       render(value, rowData) {
         // value 是当前dataIndex对应的值，rowData是整行数据对象
         return formatDate(value, "YYYY-MM-DD hh:mm:ss");
       },
-    },
+    }, */
     {
       title: "编辑",
       render: (_, record) => (
@@ -105,7 +100,7 @@ function Adminuser() {
     getAdminUserList({ page: 1 }, (res) => {
       console.log(res);
       dispatch({
-        data: res.data[0].data,
+        data: res,
       });
     });
   };
@@ -113,10 +108,11 @@ function Adminuser() {
   // 点击显示修改用户信息的弹窗并把输入填充到form表单
   const onUpdate = (row) => {
     form.setFieldsValue({
-      username: row.username,
+      email: row.email,
       password: row.password,
       repassword: "",
-      role: row.role,
+      nick: row.nick,
+      introduction:row.introduction
     });
     dispatch({
       isModalOpen: true,
@@ -127,10 +123,11 @@ function Adminuser() {
   // 由于form输入的内容会保留，每次点击添加则要把数据设置为"",需要获取form的实例，调用实例的setFiledsValue方法设置form表单默认值。
   const handleShow = () => {
     form.setFieldsValue({
-      username: "",
+      email: "",
       password: "",
-      repassword: "",
-      role: "",
+      repassword:"",
+      nick: "",
+      introduction: "",
     });
     dispatch({
       isModalOpen: true,
@@ -144,21 +141,7 @@ function Adminuser() {
     });
   };
 
-  const handleChangeRole = (value) => {
-    let obj = {
-      role: value,
-    };
-    // authority 权限如果没有设置，则是等于选择角色的权限，如果设置了authority，则不用管role的权限。
-    if (!state.authority) {
-      obj.authority = config[value];
-    }
-    dispatch(obj);
-  };
-
-  // 修改权限
-  const onChangeAut = (data) => {
-    console.log(data);
-  };
+  
 
   // 获取表单输入内容，并提交到后端
   const onFinish = (values) => {
@@ -234,7 +217,7 @@ function Adminuser() {
             name="nick"
             rules={[{ required: true, message: "请输入昵称!" }]}
           >
-            <Input disabled={state.id} />
+            <Input />
           </Form.Item>
 
           <Form.Item
@@ -242,7 +225,7 @@ function Adminuser() {
             name="introduction"
             rules={[{ required: true, message: "请输入简介!" }]}
           >
-            <Input disabled={state.id} />
+            <Input/>
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>

@@ -68,15 +68,15 @@ const Layouts = ({user,dispatch}) => {
               icon: <UserOutlined />,
               label: <Link to="/adminuser">用户管理</Link>,
             },
-            {
+            /* {
               key: "3",
               icon: <UserOutlined />,
               label: <Link to="/users">会员管理</Link>,
-            },
+            }, */
             {
               key: "4",
               icon: <ShopOutlined />,
-              label: <Link to="/product">商品管理</Link>,
+              label: <Link to="/blog">博客管理</Link>,
             },
             {
               key: "5",

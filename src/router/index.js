@@ -17,8 +17,8 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route path="" element={<Home />}></Route>
           <Route path="adminuser" element={<Adminuser />}></Route>
-          <Route path="users" element={<Users />}></Route>
-          <Route path="product" element={<Product />}></Route>
+          {/* <Route path="users" element={<Users />}></Route> */}
+          <Route path="blog" element={<Product />}></Route>
           <Route path="order" element={<Order />}></Route>
         </Route>
         <Route path="*" element={<Notfound />}></Route>

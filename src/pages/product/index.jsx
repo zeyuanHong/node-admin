@@ -15,7 +15,6 @@ import {
 import { formatDate } from "../../util/tool";
 import {
     getPro,
-    getAllProType,
     addpro,
     getDetail,
     updatepro,
@@ -36,15 +35,21 @@ const initState = {
     total: 0,
     data: [],
     isModalOpen: false,
-    typeData: [],//商品分类数据
+    typeData: [],//博客分类数据
     type1SelectId: '',
     type2SelectId: '',
     mainSelectId: '',
     secondSelectId: '',
-    imgList: '', // 商品主图列表
+    imgList: '', // 博客主图列表
     html: "", // 富文本编辑器内容
 
-};
+}
+
+const BLOG_TYPE = [
+    { text: "技术", value: 1 },
+    { text: "随笔", value: 2 },
+    { text: "笔记", value: 3 },
+];
 
 const reducer = function (state = initState, action) {
     if (action) {
@@ -59,14 +64,15 @@ function Product() {
 
     // 删除数据
     const handleDel = (row) => {
-        // 删除商品的同时还需要删除商品对应的图片(主图和详情图片)
+        // 删除博客的同时还需要删除博客对应的图片(主图和详情图片)
         let arr = [];
         arr = row.img.split(",");
         getDetail({ id: row.id }, (res) => { //首先要把图片给删除
-            const data = res.data[0].data[0].detail;
+            // console.log(res)
+            const data = res[0].content
             // 用正则匹配出所有的图片路径
             let reg =
-                /(?<=\<img src="https:\/\/8i98\.com\/apidoc\/)vapi\/\d+\/[\w-]+.[A-z]+(?=" alt="" data-href="" style=""\/\>)/g;
+                /(?<=\<img src="http:\/\/localhost:3080\.com\/apidoc\/)vapi\/\d+\/[\w-]+.[A-z]+(?=" alt="" data-href="" style=""\/\>)/g;
             let imgs = data.match(reg) || [];
             arr = [...arr, ...imgs];
             deldetailimg({ file: arr }, () => "");
@@ -84,7 +90,7 @@ function Product() {
             dataIndex: "id", // 渲染数据的键，会把对应的value渲染到该表头下面
         },
         {
-            title: "商品图片",
+            title: "博客图片",
             dataIndex: "img",
             render(img) {
                 if (img) {
@@ -96,7 +102,7 @@ function Product() {
                                     return (
                                         <img key={item}
                                             src={staticUrl + item}
-                                            alt="商品图片"
+                                            alt="博客图片"
                                             style={{ width: 50, height: 50 }} />
                                     )
                                 })
@@ -107,40 +113,24 @@ function Product() {
             }
         },
         {
-            title: "商品名称",
+            title: "博客标题",
             dataIndex: "title",
         },
         {
-            title: "价格",
-            dataIndex: "price",
+            title: "博客简介",
+            dataIndex: "introduction",
         },
         {
-            title: "折扣",
-            dataIndex: "discount",
-        },
-        {
-            title: "尺寸",
-            dataIndex: "size",
-        },
-        {
-            title: "颜色",
-            dataIndex: "color",
-        },
-        {
-            title: "销量",
-            dataIndex: "sales",
-        },
-        {
-            title: "库存",
-            dataIndex: "stock",
+            title: "作者",
+            dataIndex: "nick",
         },
         {
             title: "分类",
-            dataIndex: "typeid",
+            dataIndex: "blog_type",
             render(typeid) {
-                for (let i = 0; i < state.typeData.length; i++) {
-                    if (state.typeData[i].id === typeid) {
-                        return state.typeData[i].title;
+                for (let i = 0; i < BLOG_TYPE.length; i++) { 
+                    if (BLOG_TYPE[i].value === Number(typeid)) {
+                        return BLOG_TYPE[i].text;
                     }
                 }
             },
@@ -170,21 +160,9 @@ function Product() {
             ),
         },
     ];
-    // 获取商品分类
-    useEffect(function () {
-        getAllProType(res => {
-            const data = res.data[0].data
-            // 需要找出默认的主id
-            let mainId = data.filter((item) => item.typelevel === 0)[0].id
-            dispatch({
-                typeData: data,
-                type1SelectId: mainId,
-                type2SelectId: "",
-            })
-        })
-    }, [])
+   
 
-    // 获取商品列表
+    // 获取博客列表
     useEffect(function () {
         init();
         // console.log(state.data)
@@ -193,12 +171,10 @@ function Product() {
         getPro({
             page: state.page,
             key: state.key,
-            typeid: state.type2SelectId,
-            orderbytype: state.orderbytype
         }, (res) => {
             dispatch({
-                data: res.data[0].data,
-                total: res.data[0].data[0].total,
+                data: res.data,
+                total: res.total,
             });
 
         });
@@ -207,7 +183,7 @@ function Product() {
     // 点击显示修改用户信息的弹窗并把输入填充到form表单
     const onUpdate = (row) => {
         getDetail({ id: row.id }, res => {
-            const data = res.data[0].data[0]
+            const data = res[0]
             form.setFieldsValue({
                 ...data
             })
@@ -238,15 +214,8 @@ function Product() {
     const handleShow = () => {
         form.setFieldsValue({
             title: "",
-            price: "",
-            discount: "",
-            weight: "",
-            stock: "",
-            color: "",
-            brand: "",
-            popular: "",
-            sales: "",
-            typeid: "",
+            introduction: "",
+            blog_type: "",
         });
         dispatch({
             isModalOpen: true,
@@ -267,12 +236,12 @@ function Product() {
     // 获取表单输入内容，并提交到后端
     const onFinish = (values) => {
         if (!state.id) {
-            // 添加商品
+            // 添加博客
             addpro(
                 {
                     ...values,
                     img: state.imgList,
-                    detail: state.html,
+                    content: state.html,
                     typeid: state.secondSelectId,
                 },
                 () => {
@@ -286,7 +255,7 @@ function Product() {
                 {
                     ...values,
                     img: state.imgList,
-                    detail: state.html,
+                    content: state.html,
                     typeid: state.secondSelectId,
                     id: state.id,
                 },
@@ -304,13 +273,6 @@ function Product() {
         })
     }
 
-    // 选择主分类
-    const handleType = (key, value) => {
-        // console.log(key, value)
-        dispatch({
-            [key]: value,
-        })
-    };
 
     // 子组件传递上传图片数据到父组件的方法
     const setImgList = (str) => {
@@ -335,54 +297,6 @@ function Product() {
                         添加
                     </Button>
                 </Col>
-                <Col span={6}>
-                    <Input
-                        placeholder="输入商品关键词"
-                        onChange={e => dispatch({ skey: e.target.value })} /* 把搜索框输入的值用skey保存 */
-                    />
-                </Col>
-                <Col span={4}>
-                    <Button type="primary" onClick={handleSearch}>
-                        搜索
-                    </Button>
-                </Col>
-
-                <Col span={10} > {/* 二级联动选择框 */}
-                    <Select  /* 一级选择框 */
-                        onChange={value => handleType("type1SelectId", value)}
-                        value={state.type1SelectId}
-                        style={{ width: "100px" }}
-                    >
-                        {
-                            state.typeData
-                                .filter(item => item.typelevel === 0) /* 一级目录刷选出来 */
-                                .map(item => (
-                                    <Select.Option key={item.id} value={item.id}>
-                                        {item.title}
-                                    </Select.Option>
-                                ))
-                        }
-                    </Select>
-
-                    <Select  /* 二级选择框 */
-                        onChange={value => handleType("type2SelectId", value)}
-                        value={state.type2SelectId}
-                        style={{ width: "100px" }}
-                    >
-                        <Select.Option value="">所有</Select.Option>
-                        {state.typeData
-                            .filter(
-                                (item) =>
-                                    item.typelevel === 1 &&
-                                    item.fatherid.search(state.type1SelectId) > -1 /* 二级目录刷选出来 */
-                            )
-                            .map((item) => (
-                                <Select.Option key={item.id} value={item.id}>
-                                    {item.title}
-                                </Select.Option>
-                            ))}
-                    </Select>
-                </Col>
             </Row>
 
 
@@ -404,13 +318,13 @@ function Product() {
                 }}
             />
             <Modal
-                title="添加商品"
+                title="添加博客"
                 open={state.isModalOpen}
                 onCancel={handleCancel}
                 footer={false}
                 width={700}
             >
-                <Form  /* 添加商品的表单 */
+                <Form  /* 添加博客的表单 */
                     name="basic"
                     labelCol={{ span: 8 }}
                     wrapperCol={{ span: 16 }}
@@ -420,101 +334,35 @@ function Product() {
                     form={form}
                 >
                     <Form.Item
-                        label="商品名称"
+                        label="博客标题"
                         name="title"
-                        rules={[{ required: true, message: "商品名称!" }]}
+                        rules={[{ required: true, message: "博客名称!" }]}
                     >
                         <Input />
                     </Form.Item>
 
                     <Form.Item
-                        label="商品价格"
-                        name="price"
-                        rules={[{ required: true, message: "商品价格!" }]}
+                        label="博客简介"
+                        name="introduction"
+                        rules={[{ required: true, message: "博客简介!" }]}
                     >
-                        <InputNumber />
+                        <Input.TextArea />
                     </Form.Item>
 
                     <Form.Item
-                        label="折扣"
-                        name="discount"
-                        rules={[{ required: true, message: "请输入商品折扣!" }]}
+                        label="博客分类"
+                        name="blog_type"
+                        rules={[{ required: true, message: "请选择博客分类!" }]}
                     >
-                        <InputNumber />
-                    </Form.Item>
-
-                    <Form.Item
-                        label="权重"
-                        name="weight"
-                        rules={[{ required: true, message: "请输入商品权重!" }]}
-                    >
-                        <InputNumber />
-                    </Form.Item>
-
-                    <Form.Item
-                        label="库存"
-                        name="stock"
-                        rules={[{ required: true, message: "请输入商品库存!" }]}
-                    >
-                        <InputNumber />
-                    </Form.Item>
-
-                    <Form.Item label="颜色" name="color">
-                        <Input placeholder="多个颜色以,分割" />
-                    </Form.Item>
-
-                    <Form.Item label="商品尺寸" name="size">
-                        <Input placeholder="多个尺寸以,分割" />
-                    </Form.Item>
-                    <Form.Item label="品牌" name="brand">
-                        <Input />
-                    </Form.Item>
-                    <Form.Item label="流行度" name="popular">
-                        <InputNumber />
-                    </Form.Item>
-                    <Form.Item label="销量" name="sales">
-                        <InputNumber />
-                    </Form.Item>
-                    <Form.Item
-                        label="主分类"
-                        rules={[{ required: true, message: "请选择主分类!" }]}
-                    >
-                        <Select
-                            onChange={(value) => handleType("mainSelectId", value)}
-                            value={state.mainSelectId}
-                            style={{ width: "100px" }}
-                        >
-                            {state.typeData
-                                .filter((item) => item.typelevel === 0)
-                                .map((item) => (
-                                    <Select.Option key={item.id} value={item.id}>
-                                        {item.title}
-                                    </Select.Option>
-                                ))}
+                        <Select style={{ width: "100px" }}>
+                            {BLOG_TYPE.map((item) => (
+                                <Select.Option key={item.value} value={item.value}>
+                                    {item.text}
+                                </Select.Option>
+                            ))}
                         </Select>
                     </Form.Item>
-                    <Form.Item
-                        label="二级分类"
-                        rules={[{ required: true, message: "请选择分类!" }]}
-                    >
-                        <Select
-                            onChange={(value) => handleType("secondSelectId", value)}
-                            value={state.secondSelectId}
-                            style={{ width: "100px" }}
-                        >
-                            {state.typeData
-                                .filter(
-                                    (item) =>
-                                        item.typelevel === 1 &&
-                                        item.fatherid.search(state.mainSelectId) > -1
-                                )
-                                .map((item) => (
-                                    <Select.Option key={item.id} value={item.id}>
-                                        {item.title}
-                                    </Select.Option>
-                                ))}
-                        </Select>
-                    </Form.Item>
+
                     <Form.Item label="主图" name="">
                         <Uploadimg imgList={state.imgList} setImgList={setImgList} />
                     </Form.Item>

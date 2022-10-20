@@ -64,16 +64,17 @@ const Uploadimg = ({ setImgList, imgList }) => {
   };
 
   return (
-    <ImgCrop rotate>
+    <ImgCrop aspect={228 / 169} rotate>
       <Upload
         action={api.adddetailimg}
+        headers={{ Authorization: sessionStorage.getItem("token") }} // 上传图片时带上token
         listType="picture-card"
         fileList={fileList}
         onChange={onChange}
         onRemove={handleRemove}
         onPreview={onPreview}
       >
-        {fileList.length < 5 && '+ 上传'}
+        {fileList.length < 1 && '+ 上传'}
       </Upload>
     </ImgCrop>
   );

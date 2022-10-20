@@ -24,7 +24,7 @@ function handleOk(res, callback) {
   hideLoading();
   if (res.data.success) {
     // 后端返回成功
-    callback(res.data);
+    callback(res.data.data);
   } else {
     // 后端返回失败，就需要显示错误消息。
     message.error(res.data.message);
