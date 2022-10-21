@@ -78,11 +78,11 @@ const Layouts = ({user,dispatch}) => {
               icon: <ShopOutlined />,
               label: <Link to="/blog">博客管理</Link>,
             },
-            {
+            /* {
               key: "5",
               icon: <BarChartOutlined />,
               label: <Link to="/order">订单管理</Link>,
-            },
+            }, */
           ]}
         />
       </Sider>

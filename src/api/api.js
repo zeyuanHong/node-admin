@@ -11,10 +11,10 @@ const api = {
   getPro: `${url}api/getBlogs`,
   delPro: `${url}api/delBlog`,
   getDetail: `${url}api/getDetail`,
+  updatepro: `${url}api/updateBlog`,
   
   getOrdersEchartData: `${url}dapi/vapi/getOrdersEchartData`,
   usersList: `${url}dapi/vapi/usersList`,
-  updatepro: `${url}dapi/vapi/updatepro`,
   getAllProType: `${url}dapi/vapi/getAllProType`,
   getOrdersList: `${url}dapi/vapi/getOrdersList`,
   updateOrders: `${url}dapi/vapi/updateOrders`,

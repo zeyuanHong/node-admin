@@ -34,21 +34,18 @@ const initState = {
     skey: '',
     total: 0,
     data: [],
+    id:'',
     isModalOpen: false,
     typeData: [],//博客分类数据
-    type1SelectId: '',
-    type2SelectId: '',
-    mainSelectId: '',
-    secondSelectId: '',
     imgList: '', // 博客主图列表
     html: "", // 富文本编辑器内容
 
 }
 
 const BLOG_TYPE = [
-    { text: "技术", value: 1 },
-    { text: "随笔", value: 2 },
-    { text: "笔记", value: 3 },
+    { text: "技术", value: "1" },
+    { text: "随笔", value: "2" },
+    { text: "笔记", value: "3" },
 ];
 
 const reducer = function (state = initState, action) {
@@ -128,8 +125,9 @@ function Product() {
             title: "分类",
             dataIndex: "blog_type",
             render(typeid) {
+                // console.log('----'+typeid)
                 for (let i = 0; i < BLOG_TYPE.length; i++) { 
-                    if (BLOG_TYPE[i].value === Number(typeid)) {
+                    if (BLOG_TYPE[i].text === typeid) {
                         return BLOG_TYPE[i].text;
                     }
                 }
@@ -188,7 +186,7 @@ function Product() {
                 ...data
             })
             // 根据typeid找对应的主分类id,先找二级分类的fatherid，然后取第一个fatherid作为他的主id
-            let fahterIdStr = "";
+            /* let fahterIdStr = "";
             for (let i = 0; i < state.typeData.length; i++) {
                 let item = state.typeData[i];
                 if (item.id === row.typeid) {
@@ -197,14 +195,14 @@ function Product() {
                 }
             }
             fahterIdStr = fahterIdStr.split("-")[0];
-
+ */
             dispatch({
                 isModalOpen: true,
                 id: data.id,
                 imgList: data.img,
-                mainSelectId: Number(fahterIdStr),
-                secondSelectId: data.typeid,
-                html: data.detail,
+                // mainSelectId: Number(fahterIdStr),
+                // secondSelectId: data.typeid,
+                html: data.content,
             })
         })
 
@@ -220,8 +218,6 @@ function Product() {
         dispatch({
             isModalOpen: true,
             id: "",
-            mainSelectId: "",
-            secondSelectId: "",
             imgList: "",
             html: "",
         });
@@ -235,6 +231,7 @@ function Product() {
 
     // 获取表单输入内容，并提交到后端
     const onFinish = (values) => {
+        console.log(values)
         if (!state.id) {
             // 添加博客
             addpro(
@@ -242,7 +239,6 @@ function Product() {
                     ...values,
                     img: state.imgList,
                     content: state.html,
-                    typeid: state.secondSelectId,
                 },
                 () => {
                     init();
@@ -256,7 +252,6 @@ function Product() {
                     ...values,
                     img: state.imgList,
                     content: state.html,
-                    typeid: state.secondSelectId,
                     id: state.id,
                 },
                 () => {
@@ -267,11 +262,6 @@ function Product() {
             );
         }
     };
-    const handleSearch = () => {
-        dispatch({
-            key: state.skey,
-        })
-    }
 
 
     // 子组件传递上传图片数据到父组件的方法
@@ -356,7 +346,7 @@ function Product() {
                     >
                         <Select style={{ width: "100px" }}>
                             {BLOG_TYPE.map((item) => (
-                                <Select.Option key={item.value} value={item.value}>
+                                <Select.Option key={item.value} value={item.text}>
                                     {item.text}
                                 </Select.Option>
                             ))}

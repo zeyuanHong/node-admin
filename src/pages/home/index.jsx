@@ -1,8 +1,8 @@
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import { Card, Col, Row, Statistic } from "antd";
 import { Fragment, useEffect, useReducer } from "react";
-import * as echarts from "echarts";
-import { getOrdersEchartData } from "../../api/service";
+// import * as echarts from "echarts";
+// import { getOrdersEchartData } from "../../api/service";
 import styles from "./index.module.scss";
 
 const initState = {
@@ -23,7 +23,7 @@ const reducer = function (state = initState, action) {
 
 const Home = () => {
   const [state, dispatch] = useReducer(reducer, initState);
-  useEffect(function () {
+/*   useEffect(function () {
     getOrdersEchartData((res) => { //从后端获取购买订单的数据
       let myChart = echarts.init(document.getElementById("main"));
       const chartData = res.data[0].data
@@ -51,7 +51,7 @@ const Home = () => {
         countChart: echarts.init(document.getElementById("maincount")),
       });
     });
-  }, []);
+  }, []); */
   
   useEffect(
     function () {
