@@ -14,7 +14,7 @@ function Login({dispatch}) {
     
     // 把输入的用户名和密码传给login接口
     login(values,(res)=>{
-      // console.log(res)
+      console.log(res)
       
       // 把token存储到sessionStorage中
       sessionStorage.setItem('token',res.token)

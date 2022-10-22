@@ -127,7 +127,7 @@ function Product() {
             render(typeid) {
                 // console.log('----'+typeid)
                 for (let i = 0; i < BLOG_TYPE.length; i++) { 
-                    if (BLOG_TYPE[i].text === typeid) {
+                    if (BLOG_TYPE[i].value === typeid) {
                         return BLOG_TYPE[i].text;
                     }
                 }
@@ -185,23 +185,12 @@ function Product() {
             form.setFieldsValue({
                 ...data
             })
-            // 根据typeid找对应的主分类id,先找二级分类的fatherid，然后取第一个fatherid作为他的主id
-            /* let fahterIdStr = "";
-            for (let i = 0; i < state.typeData.length; i++) {
-                let item = state.typeData[i];
-                if (item.id === row.typeid) {
-                    fahterIdStr = item.fatherid;
-                    break;
-                }
-            }
-            fahterIdStr = fahterIdStr.split("-")[0];
- */
+           
+            
             dispatch({
                 isModalOpen: true,
                 id: data.id,
                 imgList: data.img,
-                // mainSelectId: Number(fahterIdStr),
-                // secondSelectId: data.typeid,
                 html: data.content,
             })
         })
@@ -346,7 +335,7 @@ function Product() {
                     >
                         <Select style={{ width: "100px" }}>
                             {BLOG_TYPE.map((item) => (
-                                <Select.Option key={item.value} value={item.text}>
+                                <Select.Option key={item.value} value={item.value}>
                                     {item.text}
                                 </Select.Option>
                             ))}
