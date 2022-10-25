@@ -33,9 +33,6 @@ export function addpro(data, callback) {
   POST(api.addpro, data, callback);
 }
 
-export function usersList(data, callback) {
-  POST(api.usersList, data, callback);
-}
 
 export function getPro(data, callback) {
   POST(api.getPro, data, callback);
@@ -45,9 +42,6 @@ export function delPro(data, callback) {
   POST(api.delPro, data, callback);
 }
 
-export function getAllProType(callback) {
-  GET(api.getAllProType, callback);
-}
 
 export function updatepro(data, callback) {
   POST(api.updatepro, data, callback);
@@ -57,10 +51,4 @@ export function getDetail(data, callback) {
   GET(`${api.getDetail}?id=${data.id}`, callback);
 }
 
-export function getOrdersList(data, callback) {
-  POST(api.getOrdersList, data, callback);
-}
 
-export function updateOrders(data, callback) {
-  POST(api.updateOrders, data, callback);
-}

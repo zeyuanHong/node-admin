@@ -68,21 +68,20 @@ const Layouts = ({user,dispatch}) => {
               icon: <UserOutlined />,
               label: <Link to="/adminuser">用户管理</Link>,
             },
-            /* {
-              key: "3",
-              icon: <UserOutlined />,
-              label: <Link to="/users">会员管理</Link>,
-            }, */
             {
-              key: "4",
+              key: "3",
               icon: <ShopOutlined />,
               label: <Link to="/blog">博客管理</Link>,
             },
-            /* {
-              key: "5",
-              icon: <BarChartOutlined />,
-              label: <Link to="/order">订单管理</Link>,
-            }, */
+            {
+              key: "4",
+              icon: <UserOutlined />,
+              label:(
+                <span onClick={()=>{
+                  window.location.href = '/'
+                }}>返回首页</span>
+              ),
+            },
           ]}
         />
       </Sider>

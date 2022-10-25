@@ -1,4 +1,4 @@
-const url = "";
+const url = "/";
 const api = {
   login: `${url}api/login`,
   addCreateAdminUser: `${url}api/saveUser`,
@@ -13,11 +13,6 @@ const api = {
   getDetail: `${url}api/getDetail`,
   updatepro: `${url}api/updateBlog`,
   
-  getOrdersEchartData: `${url}dapi/vapi/getOrdersEchartData`,
-  usersList: `${url}dapi/vapi/usersList`,
-  getAllProType: `${url}dapi/vapi/getAllProType`,
-  getOrdersList: `${url}dapi/vapi/getOrdersList`,
-  updateOrders: `${url}dapi/vapi/updateOrders`,
 };
 export const staticUrl = "http://localhost:3080";
 export default api;

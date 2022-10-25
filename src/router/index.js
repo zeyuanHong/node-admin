@@ -5,9 +5,7 @@ import Login from "../pages/login";
 import Layout from "../pages/layout";
 import Home from "../pages/home";
 import Adminuser from "../pages/adminUser";
-import Users from "../pages/users";
 import Product from "../pages/product";
-import Order from "../pages/orders";
 import Notfound from "../pages/notfound";
 export default function App() {
   return (
@@ -17,9 +15,7 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route path="" element={<Home />}></Route>
           <Route path="adminuser" element={<Adminuser />}></Route>
-          {/* <Route path="users" element={<Users />}></Route> */}
           <Route path="blog" element={<Product />}></Route>
-          <Route path="order" element={<Order />}></Route>
         </Route>
         <Route path="*" element={<Notfound />}></Route>
       </Routes>
