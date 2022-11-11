@@ -100,7 +100,7 @@ function Adminuser() {
     getAdminUserList({ page: 1 }, (res) => {
       console.log(res);
       dispatch({
-        data: res,
+        data: res.data,
       });
     });
   };
@@ -170,7 +170,9 @@ function Adminuser() {
           添加
         </Button>
       </p>
+
       <Table rowKey="id" columns={columns} dataSource={state.data} />
+      
       <Modal
         title="添加管理员"
         open={state.isModalOpen}

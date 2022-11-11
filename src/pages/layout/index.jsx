@@ -25,7 +25,7 @@ const Layouts = ({user,dispatch}) => {
     sessionStorage.clear()
     // 把user 的全局state设置为""
     dispatch({
-      type: "SET_TYPE",
+      type: "SET_USER",
       payload: "",
     });
     // 跳转到登录页面
