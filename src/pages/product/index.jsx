@@ -125,7 +125,6 @@ function Product() {
 			title: "分类",
 			dataIndex: "blog_type",
 			render(typeid) {
-				// console.log('----'+typeid)
 				for (let i = 0; i < BLOG_TYPE.length; i++) {
 					if (BLOG_TYPE[i].value === typeid) {
 						return BLOG_TYPE[i].text;
